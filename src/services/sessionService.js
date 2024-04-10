@@ -39,13 +39,20 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 export const fetchAggregatedSessions = async (dateRange) => {
     let queryUrl = `${process.env.REACT_APP_API_URL}/api/aggregated-sessions`;
+
     if (dateRange && dateRange.startDate && dateRange.endDate) {
-        // Ensure startDate and endDate are formatted as "YYYY-MM-DD"
-        const formattedStartDate = dateRange.startDate.toISOString().split('T')[0];
-        const formattedEndDate = dateRange.endDate.toISOString().split('T')[0];
+        // Calculate user's timezone offset in milliseconds
+        const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+
+        // Adjust startDate and endDate from user's local timezone to UTC
+        const formattedStartDate = new Date(new Date(dateRange.startDate).getTime() - userTimezoneOffset).toISOString().split('T')[0];
+        const formattedEndDate = new Date(new Date(dateRange.endDate).getTime() - userTimezoneOffset).toISOString().split('T')[0];
+
         queryUrl += `?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
     }
+
     console.log('Fetching Aggregated Sessions with URL:', queryUrl);
+
     try {
         const response = await axios.get(queryUrl);
         return response.data;
@@ -54,6 +61,7 @@ export const fetchAggregatedSessions = async (dateRange) => {
         throw error;
     }
 };
+
 
 
 // export const fetchTopPages = async (dateRange) => {
