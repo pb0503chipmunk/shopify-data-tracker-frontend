@@ -41,12 +41,9 @@ export const fetchAggregatedSessions = async (dateRange) => {
     let queryUrl = `${process.env.REACT_APP_API_URL}/api/aggregated-sessions`;
 
     if (dateRange && dateRange.startDate && dateRange.endDate) {
-        // Calculate user's timezone offset in milliseconds
-        const userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
-
-        // Adjust startDate and endDate from user's local timezone to UTC
-        const formattedStartDate = new Date(new Date(dateRange.startDate).getTime() - userTimezoneOffset).toISOString().split('T')[0];
-        const formattedEndDate = new Date(new Date(dateRange.endDate).getTime() - userTimezoneOffset).toISOString().split('T')[0];
+        // Format startDate and endDate to ISO string to include time
+        const formattedStartDate = new Date(dateRange.startDate).toISOString();
+        const formattedEndDate = new Date(dateRange.endDate).toISOString();
 
         queryUrl += `?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
     }
@@ -61,6 +58,7 @@ export const fetchAggregatedSessions = async (dateRange) => {
         throw error;
     }
 };
+
 
 
 
