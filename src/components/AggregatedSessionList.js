@@ -34,6 +34,7 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
         <TableHead>
           <TableRow>
             <TableCell>Visitor ID</TableCell>
+            <TableCell align="right">Location</TableCell> {/* New column header */}
             <TableCell>IP Address</TableCell>
             <TableCell>Session Start</TableCell>
             <TableCell>Session End</TableCell>
@@ -47,6 +48,7 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
           {sessions.map((session, index) => (
             <TableRow key={index}>
               <TableCell>{session.visitor_id}</TableCell>
+              <TableCell align="right">{`${session.city}, ${session.country}`}</TableCell> {/* New column data */}
               <TableCell>{session.ip_address}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_start)}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_end)}</TableCell>
