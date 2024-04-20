@@ -64,8 +64,8 @@ function SessionList() {
                         <TableRow key={session.visitor_id}>
                             <TableCell component="th" scope="row">
                                 {session.visitor_id}
-                                <IconButton onClick={() => toggleStar(session.visitor_id)}>
-                                    {session.is_favorite ? <StarIcon style={{ color: 'gold' }} /> : <StarOutlineIcon />}
+                                <IconButton>
+                                    {session.is_favorite ? <StarIcon/> : <StarOutlineIcon />}
                                 </IconButton>
                             </TableCell>
                             <TableCell align="right">{session.page_name}</TableCell>
