@@ -25,12 +25,12 @@ function TopVisitedPages({ dateRange }) {
             console.error('Invalid date values:', dateRange); 
             return;
         }
-
+ 
         const formattedStartDate = start.toISOString().split('T')[0];
         const formattedEndDate = end.toISOString().split('T')[0];
         const queryUrl = `${process.env.REACT_APP_API_URL}/api/top-pages?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
         console.log('Fetching Top Pages with URL:', queryUrl);
-
+ 
         fetch(queryUrl)
             .then(response => response.json())
             .then(data => {

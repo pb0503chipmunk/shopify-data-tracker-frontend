@@ -58,7 +58,7 @@ function AggregatedSessionList({ dateRange }) {
             <TableCell>Operating System</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody> 
           {sessions.map((session) => (
             <TableRow key={session.visitor_id}>
               <TableCell component="th" scope="row">
