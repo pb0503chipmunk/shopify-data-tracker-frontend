@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchSessions } from '../services/sessionService';
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@mui/material';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarIcon from '@mui/icons-material/Star';
 import IconButton from '@mui/material/IconButton';
@@ -52,6 +52,7 @@ function SessionList() {
                 <TableHead>
                     <TableRow>
                         <TableCell>Visitor ID</TableCell>
+                        <TableCell>Favorite</TableCell>
                         <TableCell align="right">Page Name</TableCell>
                         <TableCell align="right">Browser</TableCell>
                         <TableCell align="right">Operating System</TableCell>
@@ -63,7 +64,8 @@ function SessionList() {
                     {sessions.map((session) => (
                         <TableRow key={session.visitor_id}>
                             <TableCell component="th" scope="row">
-                                {session.visitor_id}<IconButton>{session.is_favorite ? <StarIcon/> : <StarOutlineIcon />}</IconButton></TableCell>
+                                {session.visitor_id}</TableCell>
+                            <TableCell>{session.is_favorite}</TableCell>
                             <TableCell align="right">{session.page_name}</TableCell>
                             <TableCell align="right">{session.browser}</TableCell>
                             <TableCell align="right">{session.operating_system}</TableCell>
