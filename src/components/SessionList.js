@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchSessions } from '../services/sessionService';
+import { fetchAggregatedSessions } from '../services/sessionService';}
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@mui/material';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -25,7 +26,7 @@ function SessionList() {
 
     const loadSessions = async () => {
         try {
-            const data = await fetchSessions();
+            const data = await fetchAggregatedSessions();
             console.log("Fetched sessions data:", data);
             setSessions(data);
         } catch (error) {
