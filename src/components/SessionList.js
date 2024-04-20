@@ -63,11 +63,7 @@ function SessionList() {
                     {sessions.map((session) => (
                         <TableRow key={session.visitor_id}>
                             <TableCell component="th" scope="row">
-                                {session.visitor_id}
-                                <IconButton>
-                                    {session.is_favorite ? <StarIcon/> : <StarOutlineIcon />}
-                                </IconButton>
-                            </TableCell>
+                                {session.visitor_id}<IconButton>{session.is_favorite ? <StarIcon/> : <StarOutlineIcon />}</IconButton></TableCell>
                             <TableCell align="right">{session.page_name}</TableCell>
                             <TableCell align="right">{session.browser}</TableCell>
                             <TableCell align="right">{session.operating_system}</TableCell>
