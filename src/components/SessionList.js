@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchSessions } from '../services/sessionService';
-import { fetchAggregatedSessions } from '../services/sessionService';}
+import { fetchAggregatedSessions } from '../services/sessionService';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@mui/material';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarIcon from '@mui/icons-material/Star';
