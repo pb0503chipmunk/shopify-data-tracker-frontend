@@ -78,6 +78,7 @@ function SessionList() {
                 </TableBody>
             </Table>
         </TableContainer>
+        
     );
 }
 

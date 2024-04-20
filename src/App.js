@@ -3,6 +3,7 @@ import AggregatedSessionList from './components/AggregatedSessionList';
 import TopVisitedPages from './components/TopVisitedPages';
 import DateFilter from './components/DateFilter';
 import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
 
 import './App.css';
 
@@ -49,6 +50,7 @@ function App() {
           <h1>Top Pages</h1>
           <TopVisitedPages dateRange={dateRange} />
           <StarIcon />
+          <IconButton> <StarIcon /> </IconButton>
         </div>
       </header>
     </div>
