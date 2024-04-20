@@ -18,11 +18,22 @@ function formatSingaporeTime(dateString) {
 }
 
 function SessionList() {
-    const [sessions, setSessions] = useState([]);
+  const [sessions, setSessions] = useState([]);
 
-    useEffect(() => {
-        loadSessions();
-    }, []);
+  useEffect(() => {
+      const loadSessions = async () => {
+          try {
+              const data = await fetchSessions();
+              console.log("Fetched sessions data:", data); // Log right after fetching
+              setSessions(data);
+              console.log("Sessions state after setting:", data); // Log after setting state
+          } catch (error) {
+              console.error("Error fetching sessions:", error);
+          }
+      };
+
+      loadSessions();
+  }, []);
 
     const loadSessions = async () => {
         try {
