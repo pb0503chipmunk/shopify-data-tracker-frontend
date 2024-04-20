@@ -13,32 +13,38 @@ function formatSingaporeTime(dateString) {
 }
 
 function TopVisitedPages({ dateRange }) {
-    const [topPages, setTopPages] = useState([]);
-  
-    useEffect(() => {
-      const loadTopPages = async () => {
-        try {
-          // Ensure startDate and endDate are formatted as "YYYY-MM-DD"
-          let formattedStartDate = dateRange.startDate ? dateRange.startDate.toISOString().split('T')[0] : null;
-          let formattedEndDate = dateRange.endDate ? dateRange.endDate.toISOString().split('T')[0] : null;
-  
-          let url = `${process.env.REACT_APP_API_URL}/api/top-pages`;
-          if (formattedStartDate && formattedEndDate) {
-            url += `?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
-          }
-  
-          const response = await axios.get(url);
-          setTopPages(response.data);
-        } catch (error) {
-          console.error("Error fetching top visited pages:", error);
+  // Initialize the state for storing the top pages data
+  const [topPages, setTopPages] = useState([]);
+  useEffect(() => {
+    console.log("Date Range Received:", dateRange);
+    if (dateRange && dateRange.startDate && dateRange.endDate) {
+        // Convert to Date objects if necessary
+        const start = new Date(dateRange.startDate);
+        const end = new Date(dateRange.endDate);
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+            console.error('Invalid date values:', dateRange);
+            return;
         }
-      };
-  
-      loadTopPages();
-    }, [dateRange]); // Include dateRange in the dependencies array
-  
-    // The rest of your component...
-    return (
+
+        const formattedStartDate = start.toISOString().split('T')[0];
+        const formattedEndDate = end.toISOString().split('T')[0];
+        const queryUrl = `${process.env.REACT_APP_API_URL}/api/top-pages?startDate=${formattedStartDate}&endDate=${formattedEndDate}`;
+        console.log('Fetching Top Pages with URL:', queryUrl);
+
+        fetch(queryUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Data Received:", data);
+                setTopPages(data); // Assuming you have a state `topPages` to store fetched data
+            })
+            .catch(error => console.error("Error fetching top visited pages:", error));
+    } else {
+        console.error('Date Range is invalid:', dateRange);
+    }
+}, [dateRange]);  // Ensure dateRange is part of the dependency array if it comes from props or state
+
+
+  return (
         <TableContainer component={Paper}>
           <Table aria-label="top visited pages table">
             <TableHead>
