@@ -6,6 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { IconButton } from '@mui/material';
 
 import './App.css';
+import SessionList from './components/SessionList';
 
 function App() {
   // Create a function to format the date in 'YYYY-MM-DD' format for SGT
@@ -47,6 +48,7 @@ function App() {
           <DateFilter onDateRangeChange={handleDateRangeChange} />
           <h1>Sessions</h1>
           <AggregatedSessionList dateRange={dateRange} />
+          <SessionList />
           <h1>Top Pages</h1>
           <TopVisitedPages dateRange={dateRange} />
           <StarIcon />
