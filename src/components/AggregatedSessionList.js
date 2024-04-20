@@ -12,13 +12,13 @@ function formatSingaporeTime(dateString) {
   return new Intl.DateTimeFormat('en-SG', options).format(date);
 }
 
-function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
+function AggregatedSessionList({ dateRange }) {
   const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
     const loadSessions = async () => {
       try {
-        const data = await fetchAggregatedSessions(dateRange); // Pass dateRange to the fetch function
+        const data = await fetchAggregatedSessions(dateRange);
         setSessions(data);
       } catch (error) {
         console.error("Error fetching aggregated sessions:", error);
@@ -26,7 +26,16 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
     };
 
     loadSessions();
-  }, [dateRange]); // Rerun effect when dateRange changes
+  }, [dateRange]);
+
+  const toggleStar = async (visitorId) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/sessions/starred/${visitorId}`);
+      loadSessions(); // Reload sessions to reflect changes
+    } catch (error) {
+      console.error("Error toggling star:", error);
+    }
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -34,7 +43,7 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
         <TableHead>
           <TableRow>
             <TableCell>Visitor ID</TableCell>
-            <TableCell align="right">Location</TableCell> {/* New column header */}
+            <TableCell align="right">Location</TableCell>
             <TableCell>IP Address</TableCell>
             <TableCell>Session Start</TableCell>
             <TableCell>Session End</TableCell>
@@ -47,8 +56,13 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
         <TableBody>
           {sessions.map((session, index) => (
             <TableRow key={index}>
-              <TableCell>{session.visitor_id}</TableCell>
-              <TableCell align="right">{`${session.city}, ${session.country}`}</TableCell> {/* New column data */}
+              <TableCell>
+                <IconButton onClick={() => toggleStar(session.visitor_id)}>
+                  {session.is_favorite ? <StarIcon color="secondary" /> : <StarOutlineIcon />}
+                </IconButton>
+                {session.visitor_id}
+              </TableCell>
+              <TableCell align="right">{`${session.city}, ${session.country}`}</TableCell>
               <TableCell>{session.ip_address}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_start)}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_end)}</TableCell>
@@ -65,3 +79,4 @@ function AggregatedSessionList({ dateRange }) { // Accept dateRange as a prop
 }
 
 export default AggregatedSessionList;
+
