@@ -44,14 +44,20 @@ function SessionList() {
         }
     };
 
+
     const toggleStar = async (visitorId) => {
-        try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/api/sessions/starred/${visitorId}`);
-            loadSessions(); // Reload sessions to reflect changes
-        } catch (error) {
-            console.error("Error toggling star:", error);
-        }
-    };
+      try {
+          const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/sessions/starred/${visitorId}`);
+          if (response.data) {
+              setSessions(sessions.map(session => 
+                  session.visitor_id === visitorId ? { ...session, is_starred: !session.is_starred } : session
+              ));
+          }
+      } catch (error) {
+          console.error("Error toggling star:", error);
+      }
+  };
+  
 
     return (
         <TableContainer component={Paper}>
