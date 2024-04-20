@@ -74,6 +74,7 @@ function SessionList() {
                     ))}
                 </TableBody>
             </Table>
+            <IconButton></IconButton>
         </TableContainer>
     );
 }
