@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { fetchSessions } from '../services/sessionService';
 import { fetchAggregatedSessions } from '../services/sessionService';}
-import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tab } from '@mui/material';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarIcon from '@mui/icons-material/Star';
 import IconButton from '@mui/material/IconButton';
+import axios from 'axios'; 
+
 
 function formatSingaporeTime(dateString) {
     const date = new Date(dateString);
     const options = {
         year: 'numeric', month: 'short', day: 'numeric',
         hour: '2-digit', minute: '2-digit', second: '2-digit',
-        timeZone: 'Asia/Singapore', timeZoneName: 'short'
+        timeZone: 'Asia/Singapore', timeZoneName: 'short' 
     };
     return new Intl.DateTimeFormat('en-SG', options).format(date);
 }

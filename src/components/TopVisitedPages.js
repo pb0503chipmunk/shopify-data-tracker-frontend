@@ -22,7 +22,7 @@ function TopVisitedPages({ dateRange }) {
         const start = new Date(dateRange.startDate);
         const end = new Date(dateRange.endDate);
         if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-            console.error('Invalid date values:', dateRange);
+            console.error('Invalid date values:', dateRange); 
             return;
         }
 
