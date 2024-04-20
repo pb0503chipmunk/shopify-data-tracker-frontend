@@ -47,8 +47,7 @@ function App() {
         <div className="PageContainer">
           <DateFilter onDateRangeChange={handleDateRangeChange} />
           <h1>Sessions</h1>
-          <AggregatedSessionList dateRange={dateRange} />
-          <SessionList dateRange={dateRange}/>
+          <SessionList />
           <h1>Top Pages</h1>
           <TopVisitedPages dateRange={dateRange} />
         </div>
