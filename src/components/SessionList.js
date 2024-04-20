@@ -61,10 +61,10 @@ function SessionList() {
                         <TableRow key={session.visitor_id}>
                             <TableCell>
                                 <IconButton onClick={() => toggleStar(session.visitor_id)}>
-                                    {session.is_starred ? <StarIcon/> : <StarOutlineIcon />}
+                                    {session.is_favorite ?  <StarIcon /> : <StarOutlineIcon />}
                                 </IconButton>
                             </TableCell>
-                            <TableCell component="th" scope="row">{session.visitor_id}</TableCell>
+                            <TableCell component="th" scope="row">{session.visitor_id} </TableCell>
                             <TableCell align="right">{session.page_name}</TableCell>
                             <TableCell align="right">{session.browser}</TableCell>
                             <TableCell align="right">{session.operating_system}</TableCell>
