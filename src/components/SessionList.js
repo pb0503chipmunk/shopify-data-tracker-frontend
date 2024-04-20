@@ -4,7 +4,8 @@ import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarIcon from '@mui/icons-material/Star';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import IconButton from '@mui/material/IconButton';
+
 
 function formatSingaporeTime(dateString) {
     const date = new Date(dateString);
@@ -58,8 +59,10 @@ function SessionList() {
                 <TableBody>
                     {sessions.map((session) => (
                         <TableRow key={session.visitor_id}>
-                            <TableCell onClick={() => toggleStar(session.visitor_id)}>
-                                {session.is_starred ? <StarIcon style={{ color: 'gold' }} /> : <StarBorderOutlinedIcon />}
+                            <TableCell>
+                                <IconButton onClick={() => toggleStar(session.visitor_id)}>
+                                    {session.is_starred ? <StarIcon style={{ color: 'gold' }} /> : <StarBorderOutlinedIcon />}
+                                </IconButton>
                             </TableCell>
                             <TableCell component="th" scope="row">{session.visitor_id}</TableCell>
                             <TableCell align="right">{session.page_name}</TableCell>
