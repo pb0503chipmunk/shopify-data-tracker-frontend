@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import AggregatedSessionList from './components/AggregatedSessionList';
 import TopVisitedPages from './components/TopVisitedPages';
 import DateFilter from './components/DateFilter';
+import StarIcon from '@mui/icons-material/Star';
 
 import './App.css';
 
@@ -47,6 +48,7 @@ function App() {
           <AggregatedSessionList dateRange={dateRange} />
           <h1>Top Pages</h1>
           <TopVisitedPages dateRange={dateRange} />
+          <StarIcon />
         </div>
       </header>
     </div>
