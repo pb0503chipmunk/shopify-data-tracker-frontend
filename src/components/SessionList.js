@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchSessions } from '../services/sessionService';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import StarIcon from '@mui/icons-material/Star';
 import IconButton from '@mui/material/IconButton';
 
@@ -61,7 +61,7 @@ function SessionList() {
                         <TableRow key={session.visitor_id}>
                             <TableCell>
                                 <IconButton onClick={() => toggleStar(session.visitor_id)}>
-                                    {session.is_starred ? <StarIcon style={{ color: 'gold' }} /> : <StarBorderOutlinedIcon />}
+                                    {session.is_starred ? <StarIcon/> : <StarOutlineIcon />}
                                 </IconButton>
                             </TableCell>
                             <TableCell component="th" scope="row">{session.visitor_id}</TableCell>
@@ -74,7 +74,7 @@ function SessionList() {
                     ))}
                 </TableBody>
             </Table>
-            <IconButton><StarBorderOutlinedIcon></StarBorderOutlinedIcon></IconButton>
+            <StarOutlineIcon />
         </TableContainer>
     );
 }
