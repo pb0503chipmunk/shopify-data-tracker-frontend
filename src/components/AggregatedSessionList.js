@@ -121,11 +121,11 @@ function AggregatedSessionList({ dateRange }) {
               <TableCell>{session.browser}</TableCell>
               <TableCell>{session.operating_system}</TableCell>
               <TableCell>
-                <IconButton disabled={!session.hasAddedToCart}>
-                    <ShoppingCartIcon color={session.hasAddedToCart ? "primary" : "disabled"}/>
+                <IconButton color={session.has_added_to_cart ? "primary" : "disabled"}>
+                  <ShoppingCartIcon color={session.has_added_to_cart ? "inherit" : "disabled"}/>
                 </IconButton>
                 <IconButton disabled={!session.hasCheckedOut}>
-                    <PaymentIcon color={session.hasCheckedOut ? "primary" : "disabled"}/>
+                  <PaymentIcon color={session.hasCheckedOut ? "primary" : "disabled"}/>
                 </IconButton>
                 <IconButton disabled={!session.hasCompletedOrder}>
                     <CheckCircleIcon color={session.hasCompletedOrder ? "primary" : "disabled"}/>
