@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAggregatedSessions } from '../services/sessionService';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Popper, Typography, List, ListItem } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Popper, Typography, List, ListItem, IconButton } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 
 function formatSingaporeTime(dateString) {
   const date = new Date(dateString);
@@ -35,6 +37,12 @@ function AggregatedSessionList({ dateRange }) {
     setPopperAnchor(popperAnchor === event.currentTarget ? null : event.currentTarget);
   };
 
+  const handleFavoriteToggle = (sessionId) => {
+    // Assuming a function to toggle favorite status in your API
+    // toggleFavoriteStatus(sessionId);
+    console.log("Toggle favorite status for:", sessionId);
+  };
+
   const open = Boolean(popperAnchor);
   const id = open ? 'simple-popper' : undefined;
 
@@ -56,7 +64,12 @@ function AggregatedSessionList({ dateRange }) {
         <TableBody>
           {sessions.map((session, index) => (
             <TableRow key={index}>
-              <TableCell>{session.visitor_id}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleFavoriteToggle(session.visitor_id)}>
+                  {session.is_favorite ? <StarIcon /> : <StarOutlineIcon />}
+                </IconButton>
+                {session.visitor_id}
+              </TableCell>
               <TableCell align="right">{`${session.city}, ${session.country}`}</TableCell>
               <TableCell>{session.ip_address}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_start)}</TableCell>
