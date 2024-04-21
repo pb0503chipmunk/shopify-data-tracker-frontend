@@ -43,6 +43,27 @@ function AggregatedSessionList({ dateRange }) {
     console.log("Toggle favorite status for:", sessionId);
   };
 
+  const toggleStar = async (sessionId, isCurrentlyFavorite) => {
+    // Immediately update the UI to reflect the user action
+    setSessions(sessions.map(session =>
+      session.visitor_id === sessionId ? { ...session, is_favorite: !isCurrentlyFavorite } : session
+    ));
+  
+    try {
+      // Attempt to update the backend
+      await axios.post(`${process.env.REACT_APP_API_URL}/api/sessions/starred/${sessionId}`);
+      // No need to do anything here on success, the UI is already updated
+    } catch (error) {
+      console.error("Error toggling star:", error);
+      // Revert the UI change if there's an error
+      setSessions(sessions.map(session =>
+        session.visitor_id === sessionId ? { ...session, is_favorite: isCurrentlyFavorite } : session
+      ));
+      // Optionally display an error message to the user
+      alert('Failed to update favorite status. Please try again.');
+    }
+  };
+
   const open = Boolean(popperAnchor);
   const id = open ? 'simple-popper' : undefined;
 
@@ -65,7 +86,10 @@ function AggregatedSessionList({ dateRange }) {
           {sessions.map((session, index) => (
             <TableRow key={index}>
               <TableCell>
-                <IconButton onClick={() => handleFavoriteToggle(session.visitor_id)}>
+                {/* <IconButton onClick={() => handleFavoriteToggle(session.visitor_id)}>
+                  {session.is_favorite ? <StarIcon /> : <StarOutlineIcon />}
+                </IconButton> */}
+                <IconButton onClick={() => toggleStar(session.visitor_id, session.is_favorite)}>
                   {session.is_favorite ? <StarIcon /> : <StarOutlineIcon />}
                 </IconButton>
                 {session.visitor_id}
