@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAggregatedSessions } from '../services/sessionService';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Popper, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Popper, Typography, List, ListItem } from '@mui/material';
 
 function formatSingaporeTime(dateString) {
   const date = new Date(dateString);
@@ -15,7 +15,7 @@ function formatSingaporeTime(dateString) {
 function AggregatedSessionList({ dateRange }) {
   const [sessions, setSessions] = useState([]);
   const [popperAnchor, setPopperAnchor] = useState(null);
-  const [popperContent, setPopperContent] = useState('');
+  const [popperContent, setPopperContent] = useState([]);
 
   useEffect(() => {
     const loadSessions = async () => {
@@ -31,7 +31,7 @@ function AggregatedSessionList({ dateRange }) {
   }, [dateRange]);
 
   const handlePopperClick = (event, pagesViewedList) => {
-    setPopperContent(pagesViewedList);
+    setPopperContent(pagesViewedList.split(', ')); // Assuming pages are comma-separated
     setPopperAnchor(popperAnchor === event.currentTarget ? null : event.currentTarget);
   };
 
@@ -66,8 +66,13 @@ function AggregatedSessionList({ dateRange }) {
                   {session.pages_viewed_count}
                 </Button>
                 <Popper id={id} open={open} anchorEl={popperAnchor}>
-                  <Paper>
-                    <Typography style={{ padding: 10 }}>{popperContent}</Typography>
+                  <Paper style={{ padding: '10px' }}>
+                    <Typography variant="subtitle1" style={{ marginBottom: '10px' }}>Pages Viewed:</Typography>
+                    <List>
+                      {popperContent.map((page, idx) => (
+                        <ListItem key={idx}>{page}</ListItem>
+                      ))}
+                    </List>
                   </Paper>
                 </Popper>
               </TableCell>

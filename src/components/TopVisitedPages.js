@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import axios from 'axios';
 
 function formatSingaporeTime(dateString) {
   const date = new Date(dateString);
