@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import axios, {isCancel, AxiosError} from 'axios';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 function formatSingaporeTime(dateString) {
   const date = new Date(dateString);
@@ -81,6 +82,7 @@ function AggregatedSessionList({ dateRange }) {
             <TableCell>Pages Viewed Count</TableCell>
             <TableCell>Browser</TableCell>
             <TableCell>Operating System</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -116,6 +118,17 @@ function AggregatedSessionList({ dateRange }) {
               </TableCell>
               <TableCell>{session.browser}</TableCell>
               <TableCell>{session.operating_system}</TableCell>
+              <TableCell>
+                <IconButton disabled={!session.hasAddedToCart}>
+                    <ShoppingCartIcon color={session.hasAddedToCart ? "primary" : "disabled"}/>
+                </IconButton>
+                <IconButton disabled={!session.hasCheckedOut}>
+                    <PaymentIcon color={session.hasCheckedOut ? "primary" : "disabled"}/>
+                </IconButton>
+                <IconButton disabled={!session.hasCompletedOrder}>
+                    <CheckCircleIcon color={session.hasCompletedOrder ? "primary" : "disabled"}/>
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
