@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { fetchAggregatedSessions } from '../services/sessionService';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Popper, Typography } from '@mui/material';
 
 function formatSingaporeTime(dateString) {
   const date = new Date(dateString);
@@ -17,30 +14,29 @@ function formatSingaporeTime(dateString) {
 
 function AggregatedSessionList({ dateRange }) {
   const [sessions, setSessions] = useState([]);
+  const [popperAnchor, setPopperAnchor] = useState(null);
+  const [popperContent, setPopperContent] = useState('');
 
   useEffect(() => {
-    loadSessions();
-  }, [dateRange]); // Dependency on dateRange ensures it reloads data when the dateRange changes
-
-  const loadSessions = async () => {
-    try {
-      const data = await fetchAggregatedSessions(dateRange);
-      setSessions(data);
-    } catch (error) {
-      console.error("Error fetching aggregated sessions:", error);
-    }
-  };
-
-  const toggleStar = async (visitorId) => {
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/sessions/starred/${visitorId}`);
-      if (response.data) {
-        loadSessions(); // Reload data to reflect the updated favorite status
+    const loadSessions = async () => {
+      try {
+        const data = await fetchAggregatedSessions(dateRange);
+        setSessions(data);
+      } catch (error) {
+        console.error("Error fetching aggregated sessions:", error);
       }
-    } catch (error) {
-      console.error("Error toggling star:", error);
-    }
+    };
+
+    loadSessions();
+  }, [dateRange]);
+
+  const handlePopperClick = (event, pagesViewedList) => {
+    setPopperContent(pagesViewedList);
+    setPopperAnchor(popperAnchor === event.currentTarget ? null : event.currentTarget);
   };
+
+  const open = Boolean(popperAnchor);
+  const id = open ? 'simple-popper' : undefined;
 
   return (
     <TableContainer component={Paper}>
@@ -53,26 +49,28 @@ function AggregatedSessionList({ dateRange }) {
             <TableCell>Session Start</TableCell>
             <TableCell>Session End</TableCell>
             <TableCell>Pages Viewed Count</TableCell>
-            <TableCell>Pages Viewed List</TableCell>
             <TableCell>Browser</TableCell>
             <TableCell>Operating System</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody> 
-          {sessions.map((session) => (
-            <TableRow key={session.visitor_id}>
-              <TableCell component="th" scope="row">
-                <IconButton onClick={() => toggleStar(session.visitor_id)}>
-                  {session.is_favorite ? <StarIcon color="secondary" /> : <StarOutlineIcon />}
-                </IconButton>
-                {session.visitor_id}
-              </TableCell>
+        <TableBody>
+          {sessions.map((session, index) => (
+            <TableRow key={index}>
+              <TableCell>{session.visitor_id}</TableCell>
               <TableCell align="right">{`${session.city}, ${session.country}`}</TableCell>
               <TableCell>{session.ip_address}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_start)}</TableCell>
               <TableCell>{formatSingaporeTime(session.session_end)}</TableCell>
-              <TableCell>{session.pages_viewed_count}</TableCell>
-              <TableCell>{session.pages_viewed_list}</TableCell>
+              <TableCell>
+                <Button color="primary" onClick={(e) => handlePopperClick(e, session.pages_viewed_list)}>
+                  {session.pages_viewed_count}
+                </Button>
+                <Popper id={id} open={open} anchorEl={popperAnchor}>
+                  <Paper>
+                    <Typography style={{ padding: 10 }}>{popperContent}</Typography>
+                  </Paper>
+                </Popper>
+              </TableCell>
               <TableCell>{session.browser}</TableCell>
               <TableCell>{session.operating_system}</TableCell>
             </TableRow>
